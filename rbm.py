@@ -1,6 +1,7 @@
 from __future__ import print_function
 import numpy as np
 
+# https://www.jianshu.com/p/2e7ffe06fcdd
 class RBM:
   
   def __init__(self, num_visible, num_hidden):
@@ -15,14 +16,31 @@ class RBM:
     # Here we initialize the weights with mean 0 and standard deviation 0.1. 
     # Reference: Understanding the difficulty of training deep feedforward 
     # neural networks by Xavier Glorot and Yoshua Bengio
+    
+    # numpy.random.RandomState介紹：
+    # 它是一個容器，用來存儲採用梅森旋轉產生偽隨機數的算法。
     np_rng = np.random.RandomState(1234)
 
+
+    # np.sqrt()
+    # 把輸入 array 的每個元素都取平方根並回傳，完整的語法如下。
+    # np.sqrt(arr, out = None)
+    # arr ：代表輸入的 array。
+    # out ：如果有 out，會將結果儲存在 out 內，此 out 要和 arr 的形狀一樣。
     self.weights = np.asarray(np_rng.uniform(
-			low=-0.1 * np.sqrt(6. / (num_hidden + num_visible)),
-                       	high=0.1 * np.sqrt(6. / (num_hidden + num_visible)),
-                       	size=(num_visible, num_hidden)))
+      low=-0.1 * np.sqrt(6. / (num_hidden + num_visible)),
+      high=0.1 * np.sqrt(6. / (num_hidden + num_visible)),
+      size=(num_visible, num_hidden)))
 
 
+    # numpy.insert可以有三個參數（arr，obj，values，axis）
+    # arr是一個數組，可以是一維的也可以是多維的，在arr的基礎上插入元素
+    # obj是元素插入的位置
+    # values是需要插入的數值
+    # axis是指示在哪一個軸上對應的插入位置進行插入
+
+
+    # 插入bias unit的 weight，因為它與可見層、隱藏層皆相連，故此矩陣的行與列各加1
     # Insert weights for the bias units into the first row and first column.
     self.weights = np.insert(self.weights, 0, 0, axis = 0)
     self.weights = np.insert(self.weights, 0, 0, axis = 1)
@@ -48,6 +66,7 @@ class RBM:
       pos_hidden_probs = self._logistic(pos_hidden_activations)
       pos_hidden_probs[:,0] = 1 # Fix the bias unit.
       pos_hidden_states = pos_hidden_probs > np.random.rand(num_examples, self.num_hidden + 1)
+
       # Note that we're using the activation *probabilities* of the hidden states, not the hidden states       
       # themselves, when computing associations. We could also use the states; see section 3 of Hinton's 
       # "A Practical Guide to Training Restricted Boltzmann Machines" for more.
