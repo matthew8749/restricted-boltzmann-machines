@@ -21,8 +21,10 @@ class RBM:
     # 它是一個容器，用來存儲採用梅森旋轉產生偽隨機數的算法。
     np_rng = np.random.RandomState(1234)
 
+    ## 函數原型：  numpy.random.uniform(low,high,size) 
+    # 功能：從一個均勻分布[low,high)中隨機採樣，注意定義域是左閉右開，即包含low，不包含high. ]
 
-    # np.sqrt()
+    ## np.sqrt()
     # 把輸入 array 的每個元素都取平方根並回傳，完整的語法如下。
     # np.sqrt(arr, out = None)
     # arr ：代表輸入的 array。
@@ -37,7 +39,7 @@ class RBM:
     # arr是一個數組，可以是一維的也可以是多維的，在arr的基礎上插入元素
     # obj是元素插入的位置
     # values是需要插入的數值
-    # axis是指示在哪一個軸上對應的插入位置進行插入
+    # axis是指示在哪一個軸上對應的插入位置進"行插入"
 
 
     # 插入bias unit的 weight，因為它與可見層、隱藏層皆相連，故此矩陣的行與列各加1
@@ -53,7 +55,7 @@ class RBM:
     ----------
     data: A matrix where each row is a training example consisting of the states of visible units.    
     """
-
+    # 使用shape[0]讀取矩陣第一維度的長度(有幾列代表幾組數據)
     num_examples = data.shape[0]
 
     # Insert bias units of 1 into the first column.
