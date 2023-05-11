@@ -64,15 +64,18 @@ class RBM:
     for epoch in range(max_epochs):      
       # Clamp to the data and sample from the hidden units. 
       # (This is the "positive CD phase", aka the reality phase.)
-      pos_hidden_activations = np.dot(data, self.weights)      
-      pos_hidden_probs = self._logistic(pos_hidden_activations)
+      pos_hidden_ativations = np.dot(data, self.weights)      
+      pos_hidden_prcobs = self._logistic(pos_hidden_activations)
       pos_hidden_probs[:,0] = 1 # Fix the bias unit.
+                                             #產生同樣大小的隨機數矩陣          
       pos_hidden_states = pos_hidden_probs > np.random.rand(num_examples, self.num_hidden + 1)
 
       # Note that we're using the activation *probabilities* of the hidden states, not the hidden states       
       # themselves, when computing associations. We could also use the states; see section 3 of Hinton's 
       # "A Practical Guide to Training Restricted Boltzmann Machines" for more.
       pos_associations = np.dot(data.T, pos_hidden_probs)
+      # 如此，一次從可見層到隱藏層的計算便結束了
+
 
       # Reconstruct the visible units and sample again from the hidden units.
       # (This is the "negative CD phase", aka the daydreaming phase.)
@@ -212,7 +215,8 @@ class RBM:
 
     # Ignore the bias units (the first column), since they're always set to 1.
     return samples[:,1:]        
-      
+  
+  # sigmoid function     
   def _logistic(self, x):
     return 1.0 / (1 + np.exp(-x))
 
