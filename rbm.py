@@ -64,8 +64,8 @@ class RBM:
     for epoch in range(max_epochs):      
       # Clamp to the data and sample from the hidden units. 
       # (This is the "positive CD phase", aka the reality phase.)
-      pos_hidden_ativations = np.dot(data, self.weights)      
-      pos_hidden_prcobs = self._logistic(pos_hidden_activations)
+      pos_hidden_activations = np.dot(data, self.weights)      
+      pos_hidden_probs = self._logistic(pos_hidden_activations)
       pos_hidden_probs[:,0] = 1 # Fix the bias unit.
                                              #產生同樣大小的隨機數矩陣          
       pos_hidden_states = pos_hidden_probs > np.random.rand(num_examples, self.num_hidden + 1)
